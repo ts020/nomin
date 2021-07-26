@@ -1,0 +1,1 @@
+pub const FILE_NAME: &str = "assets/readfile.md";
