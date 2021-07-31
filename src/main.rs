@@ -1,7 +1,13 @@
 mod config;
 mod models;
 mod infra;
-fn main() {
+mod view;
+fn main()  {
     let posts = infra::get_posts();
-    println!("{:?}", posts);
+    let template = infra::get_template();
+    match template {
+        Ok(temp) => view::render_template(temp, &posts),
+        Err(_) => return
+    }
+
 }

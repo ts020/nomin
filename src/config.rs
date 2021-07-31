@@ -1,1 +1,2 @@
-pub const FILE_NAME: &str = "assets/readfile.md";
+pub const MD_FILE_PATH: &str = "assets/post/readfile.md";
+pub const TEMPLATE_FILE_PATH: &str = "assets/template/index.hbs";
