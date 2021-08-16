@@ -1,12 +1,14 @@
 use serde::ser::{Serialize, SerializeStruct, Serializer};
 pub struct Post {
+    pub path: String,
     pub text: String
 }
 
 impl Post {
-    pub fn from_md(text: String) -> Post {
+    pub fn from_md(path:&str, text: String) -> Post {
         Post{
-            text,
+            path: path.to_string(),
+            text: text,
         }
     }
 }
