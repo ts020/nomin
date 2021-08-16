@@ -13,8 +13,9 @@ pub fn render_template(template: NorminTemplate, data: &Vec<Post>) {
             Ok(_) => {
                 let map = json!({
                     "title": "頬ひお",
+                    "post": &data[0].text
                 });
-                reg.register_partial("post", &data[0].text).unwrap();
+                
                 let html = reg.render_template(page_template.1, &map).unwrap();
                 println!("{} {}", path, html);
             },
