@@ -4,7 +4,8 @@ use crate::models::{NorminTemplate, Post};
 
 pub fn render_template(template: NorminTemplate, data: &Vec<Post>) {
     let mut reg = Handlebars::new();
-
+    let dd =data.get(0).unwrap();
+    let path = &dd.path;
     for page_template in template.page_template_map.iter() {
         let option = reg.register_partial( page_template.0, page_template.1);
         println!("ページ名 {}", page_template.0);
@@ -15,7 +16,7 @@ pub fn render_template(template: NorminTemplate, data: &Vec<Post>) {
                 });
                 reg.register_partial("post", &data[0].text).unwrap();
                 let html = reg.render_template(page_template.1, &map).unwrap();
-                println!("{}", html);
+                println!("{} {}", path, html);
             },
             Err(e) => {
                 println!("失敗 {}", e);
