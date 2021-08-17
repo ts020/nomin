@@ -1,14 +1,16 @@
+use std::path::PathBuf;
+
 use serde::ser::{Serialize, SerializeStruct, Serializer};
 pub struct Post {
-    pub path: String,
+    pub path: PathBuf,
     pub text: String
 }
 
 impl Post {
-    pub fn from_md(path:&str, text: String) -> Post {
+    pub fn from_md(path:PathBuf, text: String) -> Post {
         Post{
-            path: path.to_string(),
-            text: text,
+            path,
+            text,
         }
     }
 }
