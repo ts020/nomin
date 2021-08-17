@@ -1,6 +1,7 @@
+use std::path::PathBuf;
 use handlebars::Handlebars;
 use serde_json::json;
-use crate::models::{NorminTemplate, PostCollection};
+use crate::{infra::write_file, models::{NorminTemplate, PostCollection}};
 
 pub fn render_template(template: NorminTemplate, data: PostCollection) {
     let reg = Handlebars::new();
@@ -15,7 +16,8 @@ pub fn render_template(template: NorminTemplate, data: PostCollection) {
             });
             
             let html = reg.render_template(template_source, &map).unwrap();
-            println!("{} {}", item.path.display(), html);
+            let write_path =str::replace(item.path.to_str().unwrap(), "assets/post", "./dist").replace(".md", "/index.html");
+            write_file(PathBuf::from(write_path), html);
         }
     }
 
