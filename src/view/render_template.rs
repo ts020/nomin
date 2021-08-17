@@ -1,28 +1,24 @@
+use std::path::PathBuf;
 use handlebars::Handlebars;
 use serde_json::json;
-use crate::models::{NorminTemplate, Post};
+use crate::{infra::write_file, models::{NorminTemplate, PostCollection}};
 
-pub fn render_template(template: NorminTemplate, data: &Vec<Post>) {
-    let mut reg = Handlebars::new();
-    let dd =data.get(0).unwrap();
-    let path = &dd.path;
-    for page_template in template.page_template_map.iter() {
-        let option = reg.register_partial( page_template.0, page_template.1);
-        println!("ページ名 {}", page_template.0);
-        match option {
-            Ok(_) => {
-                let map = json!({
-                    "title": "頬ひお",
-                });
-                reg.register_partial("post", &data[0].text).unwrap();
-                let html = reg.render_template(page_template.1, &map).unwrap();
-                println!("{} {}", path, html);
-            },
-            Err(e) => {
-                println!("失敗 {}", e);
-                return
-            },
-        };
+pub fn render_template(template: NorminTemplate, data: PostCollection) {
+    let reg = Handlebars::new();
+    for (file_path, template_source) in template.page_template_map.iter() {
+        println!("ページ名 {}", file_path.display());
+        let data_list = data.find_by_path(file_path.to_str().unwrap());
+        for item in data_list {
+            println!("itemPath: {}", item.path.display());
+            let map = json!({
+                "title": "頬ひお",
+                "post": item.text
+            });
+            
+            let html = reg.render_template(template_source, &map).unwrap();
+            let write_path =str::replace(item.path.to_str().unwrap(), "assets/post", "./dist").replace(".md", "/index.html");
+            write_file(PathBuf::from(write_path), html);
+        }
     }
 
 }

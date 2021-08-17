@@ -1,1 +1,0 @@
-pub const TEMPLATE_FILE_PATH: &str = "assets/template/index.hbs";
