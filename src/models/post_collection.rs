@@ -18,11 +18,8 @@ impl PostCollection {
         let replaceed_path = str::replace(path, "assets/template", "./assets/post")
             .replace(".hbs", "");
 
-        return self.collecction.iter().filter(|post| {
-            let _path = post.path.to_str().unwrap().to_string();
-            let d = _path.starts_with(&replaceed_path);
-            let bo = d == true;
-            bo
+        return self.collecction.iter().filter(|post| -> bool {
+            post.path.to_str().unwrap().to_string().starts_with(&replaceed_path)
         }).collect::<Vec<_>>()
     }
 }

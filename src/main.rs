@@ -4,9 +4,5 @@ mod view;
 fn main()  {
     let posts = infra::get_posts();
     let template = infra::get_template();
-    match template {
-        Ok(temp) => view::render_template(temp, posts),
-        Err(_) => return
-    }
-
+    if let Ok(temp) = template { view::render_template(temp, posts) }
 }
